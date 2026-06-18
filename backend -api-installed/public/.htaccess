@@ -1,0 +1,43 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # ── Handle Authorization Header (XAMPP strips it by default) ──────────
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # ── Handle CORS Preflight OPTIONS requests ────────────────────────────
+    # Apache must respond to OPTIONS before PHP even runs, otherwise the
+    # browser never gets CORS headers and blocks the actual request.
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+
+    # ── Redirect trailing slashes ─────────────────────────────────────────
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # ── Send all requests to Laravel front controller ─────────────────────
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# ── CORS Headers (Apache level — catches ALL requests including OPTIONS) ──
+<IfModule mod_headers.c>
+    # Allow these origins (add your production domain here too)
+    SetEnvIf Origin "^http://(localhost|127\.0\.0\.1)(:[0-9]+)?$" CORS_ORIGIN=$0
+
+    Header always set Access-Control-Allow-Origin "%{CORS_ORIGIN}e" env=CORS_ORIGIN
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Accept, Authorization, X-Requested-With, X-CSRF-TOKEN, X-XSRF-TOKEN, Origin"
+    Header always set Access-Control-Max-Age "3600"
+    Header always set Access-Control-Allow-Credentials "false"
+
+    # Remove duplicate CORS headers that Laravel might also add
+    # (prevents "multiple values" error in browser)
+    Header merge Access-Control-Allow-Origin ""
+</IfModule>

@@ -1,0 +1,184 @@
+/* ── Google Fonts (must precede all other statements) ─────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 14px;
+    --radius-sm: 8px;
+    --radius-lg: 20px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.04);
+    --shadow-lift: 0 8px 32px rgba(0,0,0,.10);
+    --transition: 0.18s cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: 'Inter', 'Hind Siliguri', system-ui, sans-serif;
+  }
+
+  /* Bangla font override */
+  .lang-bn body,
+  .lang-bn * {
+    font-family: 'Hind Siliguri', 'Inter', system-ui, sans-serif;
+  }
+
+  h1,h2,h3,h4,h5 { @apply font-bold tracking-tight; }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-400 ring-offset-2;
+  }
+}
+
+@layer components {
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold rounded-xl
+           transition-all duration-200 select-none cursor-pointer
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-95;
+  }
+  .btn-sm  { @apply btn text-sm px-4 py-2; }
+  .btn-md  { @apply btn text-sm px-5 py-2.5; }
+  .btn-lg  { @apply btn text-base px-7 py-3.5; }
+
+  .btn-primary {
+    @apply btn-md bg-brand-600 text-white shadow-sm shadow-brand-200
+           hover:bg-brand-700 hover:shadow-md hover:shadow-brand-200;
+  }
+  .btn-secondary {
+    @apply btn-md bg-white text-slate-700 border border-slate-200 shadow-sm
+           hover:border-brand-300 hover:text-brand-700 hover:bg-brand-50;
+  }
+  .btn-ghost {
+    @apply btn-md text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+  }
+  .btn-danger {
+    @apply btn-md bg-red-600 text-white hover:bg-red-700;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────── */
+  .card {
+    @apply bg-white rounded-2xl border border-slate-100 overflow-hidden;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .card:hover { box-shadow: var(--shadow-lift); }
+  .card-flat  { @apply bg-white rounded-2xl border border-slate-100; }
+
+  /* ── Form inputs ─────────────────────────────────────────── */
+  .input {
+    @apply w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800
+           placeholder-slate-400 text-sm
+           focus:outline-none focus:ring-2 focus:ring-brand-400 focus:border-transparent
+           transition-all duration-200;
+  }
+  .input-error { @apply border-red-400 focus:ring-red-400; }
+  .label { @apply block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wider; }
+
+  /* ── Badges ──────────────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+  .badge-green  { @apply badge bg-brand-100 text-brand-700; }
+  .badge-red    { @apply badge bg-red-100 text-red-700; }
+  .badge-yellow { @apply badge bg-amber-100 text-amber-700; }
+  .badge-blue   { @apply badge bg-blue-100 text-blue-700; }
+  .badge-orange { @apply badge bg-orange-100 text-orange-700; }
+  .badge-purple { @apply badge bg-purple-100 text-purple-700; }
+  .badge-gray   { @apply badge bg-slate-100 text-slate-600; }
+
+  /* ── Section wrapper ─────────────────────────────────────── */
+  .section { @apply py-16 sm:py-20; }
+  .container { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .section-title { @apply text-2xl sm:text-3xl font-extrabold text-slate-900; }
+  .section-sub   { @apply text-slate-500 mt-1 text-sm sm:text-base; }
+
+  /* ── Skeleton loader ─────────────────────────────────────── */
+  .skeleton { @apply bg-slate-200 rounded-xl animate-pulse; }
+
+  /* ── Glass morphism card ─────────────────────────────────── */
+  .glass {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    @apply border border-white/80 rounded-2xl;
+  }
+
+  /* ── Gradient text ───────────────────────────────────────── */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #059669 0%, #0d9488 50%, #0891b2 100%);
+  }
+
+  /* ── Pill tabs ───────────────────────────────────────────── */
+  .tab-pill {
+    @apply px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+  }
+  .tab-pill-active   { @apply bg-brand-600 text-white shadow-sm; }
+  .tab-pill-inactive { @apply text-slate-500 hover:text-slate-800 hover:bg-slate-100; }
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ── Page transitions ────────────────────────────────────────── */
+.page-enter-active, .page-leave-active { transition: opacity .18s ease, transform .18s ease; }
+.page-enter-from { opacity: 0; transform: translateY(6px); }
+.page-leave-to   { opacity: 0; transform: translateY(-6px); }
+
+/* ── Slide-in (cart drawer) ──────────────────────────────────── */
+.slide-enter-active, .slide-leave-active { transition: transform .28s cubic-bezier(.4,0,.2,1), opacity .28s ease; }
+.slide-enter-from, .slide-leave-to { transform: translateX(100%); opacity: 0; }
+
+/* ── Fade ────────────────────────────────────────────────────── */
+.fade-enter-active, .fade-leave-active { transition: opacity .15s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* ── Scale pop (modals) ──────────────────────────────────────── */
+.pop-enter-active, .pop-leave-active { transition: opacity .18s ease, transform .18s cubic-bezier(.34,1.56,.64,1); }
+.pop-enter-from, .pop-leave-to { opacity: 0; transform: scale(.95); }
+
+/* ── Product card hover image zoom ──────────────────────────── */
+.product-img { transition: transform .4s cubic-bezier(.4,0,.2,1); }
+.card:hover .product-img { transform: scale(1.05); }
+
+/* ── Bangla number rendering ─────────────────────────────────── */
+.lang-bn .bn-num {
+  font-feature-settings: "cnum" 1;
+}
+
+/* ── Utility: hide scrollbar ─────────────────────────────────── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Hero gradient ───────────────────────────────────────────── */
+.hero-bg {
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 40%, #eff6ff 100%);
+}
+
+/* ── Floating label shimmer for featured badge ───────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+.shimmer-badge {
+  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+  background-size: 200% auto;
+  animation: shimmer 2.5s linear infinite;
+}
+
+/* ── Pulse ring (success animation) ─────────────────────────── */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: .4; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }
